@@ -13,10 +13,10 @@ const UserInfo = () => {
 		<div>
 			{data && (
 				<div>
-					<h2>{data.firstName}</h2>
-					<h2>{data.usrname}</h2>
-					<h2>{data.mail}</h2>
-					<h2>{data.status ? 'Active' : 'Inactive'}</h2>
+					<h2>{data.name}</h2>
+					<h2>{data.username}</h2>
+					<h2>{data.email}</h2>
+					<h2>{data.active ? 'Active' : 'Inactive'}</h2>
 					<h2>Created date</h2>
 					<button onClick={() => navigate('/')}>Return</button>
 					<button onClick={() => showEditUserForm(showEdit, setShowEdit)}>
@@ -33,9 +33,7 @@ const UserInfo = () => {
 				<div>
 					<h2>Are you sure you want to delete the user?</h2>
 					<div>
-						<button onClick={() => deleteUser(data.userId, navigate)}>
-							Yes
-						</button>
+						<button onClick={() => deleteUser(data.id, navigate)}>Yes</button>
 						<button
 							onClick={() => showMsgBeforeDeleteUser(showDelete, setShowDelete)}
 						>
@@ -51,7 +49,7 @@ const UserInfo = () => {
 						<input
 							type='text'
 							name='name'
-							defaultValue={data.firstName}
+							defaultValue={data.name}
 							onChange={event =>
 								getNewInfoUserToUpdate(
 									event.target,
@@ -66,7 +64,7 @@ const UserInfo = () => {
 						<input
 							type='text'
 							name='username'
-							defaultValue={data.usrname}
+							defaultValue={data.username}
 							onChange={event =>
 								getNewInfoUserToUpdate(
 									event.target,
@@ -81,7 +79,7 @@ const UserInfo = () => {
 						<input
 							type='text'
 							name='email'
-							defaultValue={data.mail}
+							defaultValue={data.email}
 							onChange={event =>
 								getNewInfoUserToUpdate(
 									event.target,
@@ -92,9 +90,7 @@ const UserInfo = () => {
 						/>
 					</div>
 					<button
-						onClick={() =>
-							updateNewUserInfo(data.userId, updateUserInfo, navigate)
-						}
+						onClick={() => updateNewUserInfo(data.id, updateUserInfo, navigate)}
 					>
 						Save Changes
 					</button>

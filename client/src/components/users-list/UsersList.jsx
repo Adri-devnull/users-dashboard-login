@@ -12,6 +12,7 @@ const UsersList = ({ users }) => {
 						username={user.username}
 						email={user.email}
 						active={user.active}
+						gender={user.gender}
 					/>
 				))}
 		</div>
