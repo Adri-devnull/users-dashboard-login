@@ -55,14 +55,22 @@ const Register = () => {
 		</div>
 	);
 };
-
+// FUNCION PARA PREVENIR EL COMPORTAMIENTO DEL FORMULARIO POR DEFECTO
 const submitDefault = event => {
 	event.preventDefault();
 };
 
+// FUNCION PARA OBETENER EL VALOR ACTIVE DEL USUARIO ALEATORIAMENTE
+const getRandomActiveValueOfUser = () => {
+	const isActive = Math.random() < 0.5;
+	return isActive;
+};
+
+// FUNCION PARA OBTENER LOS VALORES DEL NUEVO USUARIO
 const getInputValues = (input, infoUser, setInfoUser) => {
+	const isActive = getRandomActiveValueOfUser();
 	const { name, value } = input;
-	const updatedUserInfo = { ...infoUser, [name]: value };
+	const updatedUserInfo = { ...infoUser, [name]: value, active: isActive };
 	setInfoUser(updatedUserInfo);
 };
 

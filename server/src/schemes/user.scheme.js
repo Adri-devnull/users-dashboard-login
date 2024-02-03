@@ -21,6 +21,9 @@ const UserScheme = mongoose.Schema(
     password: {
       type: String,
     },
+    active: {
+      type: Boolean,
+    },
   },
   {
     timestamps: true,
