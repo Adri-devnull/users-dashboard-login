@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { URLS } from '../../constants/urls';
-import { getData } from '../../utils/dataFunctions';
+import { getData } from '../../utils/api/users.api';
 import Filters from '../filters/Filters';
 import UsersList from '../users-list/UsersList';
 import { StyledMain } from './styles';
@@ -37,7 +37,7 @@ const filterUsersByActive = (users, filter) => {
 
 // FUNCION PARA OBTENER TODOS LOS USUARIOS DE LA BD
 const getAllUsers = async setUsers => {
-	const allUsers = await getData(URLS.USER_API);
+	const allUsers = await getData(URLS.API_USERS);
 	setUsers(allUsers);
 };
 

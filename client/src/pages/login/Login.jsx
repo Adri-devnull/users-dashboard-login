@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
+import { loginRequest } from '../../utils/api/auth.api';
 
 const Login = () => {
 	// USER GUARDA LA INFORMACION DEL USUARIO QUE SE ESTA LOGEANDO
 	const [user, setUser] = useState({});
+	const { setUserData } = useContext(AuthContext);
 	console.log(user);
 	return (
 		<div>
-			<form onSubmit={submitDefault}>
+			<form onSubmit={event => submitDefault(event, user, setUserData)}>
 				<div>
 					<label htmlFor='email'>Email</label>
 					<input
@@ -29,8 +32,9 @@ const Login = () => {
 	);
 };
 
-const submitDefault = event => {
+const submitDefault = async (event, user, setUserData) => {
 	event.preventDefault();
+	await loginRequest(user, setUserData);
 };
 
 const getInputValues = (input, user, setUser) => {

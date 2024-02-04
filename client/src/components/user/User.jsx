@@ -16,7 +16,7 @@ const User = ({ id, name, username, email, active, gender, img }) => {
 		<StyledCardContainer>
 			<StyledCard>
 				<div>
-					<StyledImg active={active} src={img} alt='' />
+					<StyledImg $active={active} src={img} alt='' />
 				</div>
 				<StyledNames>
 					<h2>{name}</h2>

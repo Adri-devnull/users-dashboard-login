@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { URLS } from '../../constants/urls';
-import { deleteData, patchData } from '../../utils/dataFunctions';
+import { deleteData, patchData } from '../../utils/api/users.api';
 
 const UserInfo = () => {
 	const { state: data } = useLocation();
@@ -102,7 +102,7 @@ const UserInfo = () => {
 
 // FUNCION PARA EDITAR USUARIO
 const updateNewUserInfo = async (id, updateUserInfo, navigate) => {
-	await patchData(`${URLS.USER_API}/${id}`, updateUserInfo);
+	await patchData(`${URLS.API_USERS}/${id}`, updateUserInfo);
 	navigate('/');
 };
 
@@ -130,7 +130,7 @@ const showMsgBeforeDeleteUser = (showDelete, setShowDelete) => {
 
 // FUNCION PARA ELIMINAR USUARIO
 const deleteUser = async (id, navigate) => {
-	await deleteData(`${URLS.USER_API}/${id}`);
+	await deleteData(`${URLS.API_USERS}/${id}`);
 	navigate('/');
 };
 

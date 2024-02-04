@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { URLS } from '../../constants/urls';
-import { postData } from '../../utils/dataFunctions';
+import { postData } from '../../utils/api/users.api';
 import { randomNumber } from '../../utils/generateRandomNumber';
 
 const Register = () => {
@@ -117,7 +117,7 @@ const generateRandomImage = (gender, infoUser, setInfoUser) => {
 
 // FUNCION PARA CREAR AL USUARIO
 const createUser = async (infoUser, navigate) => {
-	await postData(URLS.USER_API, infoUser);
+	await postData(URLS.AUTH_REGISTER, infoUser);
 	navigate('/');
 };
 export default Register;

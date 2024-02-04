@@ -29,7 +29,7 @@ const StyledImg = styled.img`
 	width: 100%;
 	border-radius: 50%;
 	border: 3px solid #362b52;
-	filter: ${({ active }) => (active ? 'none' : 'grayscale(100%)')};
+	filter: ${({ $active }) => ($active ? 'none' : 'grayscale(100%)')};
 `;
 
 const StyledButton = styled.button`
