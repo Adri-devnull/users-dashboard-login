@@ -10,6 +10,13 @@ export const getData = async url => {
 	return data;
 };
 
+export const getDataById = async url => {
+	const data = await fetchData(url, {
+		method: METHODS.GET
+	});
+	return data;
+};
+
 export const postData = async (url, body = {}) => {
 	const data = await fetchData(url, {
 		method: METHODS.POST,

@@ -10,7 +10,7 @@ import {
 	SytledInactive
 } from './styles';
 
-const User = ({ id, name, username, email, active, gender, img }) => {
+const User = ({ _id: id, name, username, active, img }) => {
 	const navigate = useNavigate();
 	return (
 		<StyledCardContainer>
@@ -25,20 +25,7 @@ const User = ({ id, name, username, email, active, gender, img }) => {
 					{!active && <SytledInactive>Inactivo</SytledInactive>}
 				</StyledNames>
 				<div>
-					<StyledButton
-						onClick={() =>
-							showUserInfo(
-								id,
-								name,
-								username,
-								email,
-								active,
-								gender,
-								img,
-								navigate
-							)
-						}
-					>
+					<StyledButton onClick={() => showUserInfo(navigate, id)}>
 						View Profile
 					</StyledButton>
 				</div>
@@ -48,27 +35,9 @@ const User = ({ id, name, username, email, active, gender, img }) => {
 };
 
 // FUNCION PARA MOSTRAR LA INFORMACION DEL USUARIO
-const showUserInfo = (
-	id,
-	name,
-	username,
-	email,
-	active,
-	gender,
-	img,
-	navigate
-) => {
-	const info = {
-		name,
-		username,
-		email,
-		id,
-		active,
-		gender,
-		img
-	};
-	console.log(info);
-	navigate(`/userinfo/${id}`, { state: info });
+const showUserInfo = (navigate, id) => {
+	console.log(id);
+	navigate(`/userinfo/${id}`);
 };
 
 export default User;

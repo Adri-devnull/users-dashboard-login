@@ -27,4 +27,34 @@ const StyledLinks = styled(Link)`
 	border-radius: 20px;
 `;
 
-export { StyledHeader, StyledLinks, StyledList, StyledTitle };
+const StyledImg = styled.img`
+	width: 30px;
+	height: 30px;
+`;
+
+const StyledSpan = styled.span`
+	font-size: 0.8em;
+	color: #fff;
+`;
+
+const StyledContainerImg = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const StyledButtonHeader = styled.button`
+	background-color: transparent;
+	border: none;
+`;
+
+export {
+	StyledButtonHeader,
+	StyledContainerImg,
+	StyledHeader,
+	StyledImg,
+	StyledLinks,
+	StyledList,
+	StyledSpan,
+	StyledTitle
+};

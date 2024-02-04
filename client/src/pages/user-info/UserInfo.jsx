@@ -1,39 +1,56 @@
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { URLS } from '../../constants/urls';
-import { deleteData, patchData } from '../../utils/api/users.api';
+import { AuthContext } from '../../contexts/AuthContext';
+import { logoutUser } from '../../utils/api/auth.api';
+import { deleteData, getDataById, patchData } from '../../utils/api/users.api';
 
 const UserInfo = () => {
-	const { state: data } = useLocation();
+	const { id } = useParams();
 	const navigate = useNavigate();
 	const [showDelete, setShowDelete] = useState(false);
 	const [updateUserInfo, setUpdateUserInfo] = useState({});
 	const [showEdit, setShowEdit] = useState(false);
+	const [user, setUser] = useState();
+	const { userData, setUserData } = useContext(AuthContext);
+
+	useEffect(() => {
+		getUserData(id, setUser);
+	}, []);
+
+	if (!user) return <h2>Loading...</h2>;
+	const { _id, name, username, email, active } = user;
+	const isLogedUser = userData.id === _id;
 	return (
 		<div>
-			{data && (
-				<div>
-					<h2>{data.name}</h2>
-					<h2>{data.username}</h2>
-					<h2>{data.email}</h2>
-					<h2>{data.active ? 'Active' : 'Inactive'}</h2>
-					<h2>Created date</h2>
-					<button onClick={() => navigate('/')}>Return</button>
-					<button onClick={() => showEditUserForm(showEdit, setShowEdit)}>
-						Edit
-					</button>
-					<button
-						onClick={() => showMsgBeforeDeleteUser(showDelete, setShowDelete)}
-					>
-						Delete profile
-					</button>
-				</div>
-			)}
+			<div>
+				<h2>{name}</h2>
+				<h2>{username}</h2>
+				<h2>{email}</h2>
+				<h2>{active ? 'Active' : 'Inactive'}</h2>
+				<h2>Created date</h2>
+				<button onClick={() => navigate('/')}>Return</button>
+				{isLogedUser && (
+					<div>
+						<button onClick={() => showEditUserForm(showEdit, setShowEdit)}>
+							Edit
+						</button>
+						<button
+							onClick={() => showMsgBeforeDeleteUser(showDelete, setShowDelete)}
+						>
+							Delete profile
+						</button>
+					</div>
+				)}
+			</div>
+
 			{showDelete && (
 				<div>
 					<h2>Are you sure you want to delete the user?</h2>
 					<div>
-						<button onClick={() => deleteUser(data.id, navigate)}>Yes</button>
+						<button onClick={() => deleteUser(_id, navigate, setUserData)}>
+							Yes
+						</button>
 						<button
 							onClick={() => showMsgBeforeDeleteUser(showDelete, setShowDelete)}
 						>
@@ -49,7 +66,7 @@ const UserInfo = () => {
 						<input
 							type='text'
 							name='name'
-							defaultValue={data.name}
+							defaultValue={name}
 							onChange={event =>
 								getNewInfoUserToUpdate(
 									event.target,
@@ -64,7 +81,7 @@ const UserInfo = () => {
 						<input
 							type='text'
 							name='username'
-							defaultValue={data.username}
+							defaultValue={username}
 							onChange={event =>
 								getNewInfoUserToUpdate(
 									event.target,
@@ -79,7 +96,7 @@ const UserInfo = () => {
 						<input
 							type='text'
 							name='email'
-							defaultValue={data.email}
+							defaultValue={email}
 							onChange={event =>
 								getNewInfoUserToUpdate(
 									event.target,
@@ -90,7 +107,7 @@ const UserInfo = () => {
 						/>
 					</div>
 					<button
-						onClick={() => updateNewUserInfo(data.id, updateUserInfo, navigate)}
+						onClick={() => updateNewUserInfo(_id, updateUserInfo, navigate)}
 					>
 						Save Changes
 					</button>
@@ -98,6 +115,12 @@ const UserInfo = () => {
 			)}
 		</div>
 	);
+};
+
+// FUNCION PARA OBTENER DATOS USUARIO
+const getUserData = async (id, setUser) => {
+	const data = await getDataById(`${URLS.API_USERS}/${id}`);
+	setUser(data);
 };
 
 // FUNCION PARA EDITAR USUARIO
@@ -129,9 +152,9 @@ const showMsgBeforeDeleteUser = (showDelete, setShowDelete) => {
 };
 
 // FUNCION PARA ELIMINAR USUARIO
-const deleteUser = async (id, navigate) => {
+const deleteUser = async (id, navigate, setUserData) => {
 	await deleteData(`${URLS.API_USERS}/${id}`);
-	navigate('/');
+	logoutUser(setUserData, navigate);
 };
 
 export default UserInfo;
