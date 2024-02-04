@@ -9,6 +9,8 @@ const Main = () => {
 	const [users, setUsers] = useState([]);
 	const [filter, setFilter] = useState(0);
 	const filteredUsers = filterUsersByActive(users, filter);
+	console.log(users);
+
 	useEffect(() => {
 		getAllUsers(setUsers);
 	}, []);
@@ -20,6 +22,7 @@ const Main = () => {
 	);
 };
 
+// FUNCION PARA FILTRAR LOS USUARIOS POR ACTIVOS, INACTIVOS O TODOS
 const filterUsersByActive = (users, filter) => {
 	const filteredUsers = [...users];
 	switch (filter) {

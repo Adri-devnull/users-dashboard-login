@@ -1,8 +1,9 @@
 import User from '../user/User';
+import { StyledCardContainer } from './styles';
 
 const UsersList = ({ users }) => {
 	return (
-		<div>
+		<StyledCardContainer>
 			{users &&
 				users.map(user => (
 					<User
@@ -13,9 +14,10 @@ const UsersList = ({ users }) => {
 						email={user.email}
 						active={user.active}
 						gender={user.gender}
+						img={user.img}
 					/>
 				))}
-		</div>
+		</StyledCardContainer>
 	);
 };
 

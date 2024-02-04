@@ -26,6 +26,9 @@ const GlobalStyles = createGlobalStyle`
     margin-bottom: 0;
     padding-left: 0;
   }
+  h2,h3 {
+    margin: 0;
+  }
 `;
 
 export { GlobalStyles };
