@@ -36,7 +36,6 @@ const User = ({ _id: id, name, username, active, img }) => {
 
 // FUNCION PARA MOSTRAR LA INFORMACION DEL USUARIO
 const showUserInfo = (navigate, id) => {
-	console.log(id);
 	navigate(`/userinfo/${id}`);
 };
 

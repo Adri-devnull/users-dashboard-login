@@ -19,8 +19,11 @@ const UserInfo = () => {
 	}, []);
 
 	if (!user) return <h2>Loading...</h2>;
+
+	// DATOS DEL USUARIO QUE RECIBO DE LA PETICION
 	const { _id, name, username, email, active } = user;
-	const isLogedUser = userData.id === _id;
+
+	const isLogedUser = userData?.id === _id;
 	return (
 		<div>
 			<div>

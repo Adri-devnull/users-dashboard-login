@@ -1,19 +1,34 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import { URLS } from '../../constants/urls';
+import { ModalContext } from '../../contexts/ModalContext';
 import { postData } from '../../utils/api/users.api';
 import { randomNumber } from '../../utils/generateRandomNumber';
+import {
+	StyledButtonsContainer,
+	StyledDarkButton,
+	StyledDarkButtonCancel,
+	StyledForm,
+	StyledFormContainer,
+	StyledImageWrapper,
+	StyledImg,
+	StyledInput,
+	StyledLabel,
+	StyledRadioGroup,
+	StyledRadioInput,
+	StyledRadioLabel,
+	StyledRandomImageButton
+} from './styles';
 
-const Register = () => {
+const Register = ({ setUsers }) => {
 	// INFOUSER GUARDA LA INFORMACION DEL NUEVO USUARIO QUE SE ESTA REGISTRANDO
 	const [infoUser, setInfoUser] = useState({});
-	const navigate = useNavigate();
+	const { setContent } = useContext(ModalContext);
 	return (
-		<div>
-			<form onSubmit={submitDefault}>
+		<StyledFormContainer>
+			<StyledForm onSubmit={submitDefault}>
 				<div>
-					<label htmlFor='name'>Name</label>
-					<input
+					<StyledLabel htmlFor='name'>Name</StyledLabel>
+					<StyledInput
 						type='text'
 						name='name'
 						onChange={event =>
@@ -22,8 +37,8 @@ const Register = () => {
 					/>
 				</div>
 				<div>
-					<label htmlFor='username'>Username</label>
-					<input
+					<StyledLabel htmlFor='username'>Username</StyledLabel>
+					<StyledInput
 						type='text'
 						name='username'
 						onChange={event =>
@@ -32,8 +47,8 @@ const Register = () => {
 					/>
 				</div>
 				<div>
-					<label htmlFor='email'>Email</label>
-					<input
+					<StyledLabel htmlFor='email'>Email</StyledLabel>
+					<StyledInput
 						type='text'
 						name='email'
 						onChange={event =>
@@ -42,8 +57,8 @@ const Register = () => {
 					/>
 				</div>
 				<div>
-					<label htmlFor='password'>Password</label>
-					<input
+					<StyledLabel htmlFor='password'>Password</StyledLabel>
+					<StyledInput
 						type='text'
 						name='password'
 						onChange={event =>
@@ -51,9 +66,9 @@ const Register = () => {
 						}
 					/>
 				</div>
-				<div>
-					<label htmlFor='woman'>Women</label>
-					<input
+				<StyledRadioGroup>
+					<StyledRadioLabel htmlFor='woman'>Women</StyledRadioLabel>
+					<StyledRadioInput
 						type='radio'
 						id='women'
 						name='gender'
@@ -62,8 +77,8 @@ const Register = () => {
 							getInputValues(event.target, infoUser, setInfoUser)
 						}
 					/>
-					<label htmlFor='men'>Man</label>
-					<input
+					<StyledRadioLabel htmlFor='men'>Man</StyledRadioLabel>
+					<StyledRadioInput
 						type='radio'
 						id='men'
 						name='gender'
@@ -72,24 +87,29 @@ const Register = () => {
 							getInputValues(event.target, infoUser, setInfoUser)
 						}
 					/>
-				</div>
-				<div>
-					<img src={infoUser.img} alt='' />
-					<button
+				</StyledRadioGroup>
+				<StyledImageWrapper>
+					<StyledImg src={infoUser.img} alt='' />
+					<StyledRandomImageButton
 						onClick={() =>
 							generateRandomImage(infoUser.gender, infoUser, setInfoUser)
 						}
 					>
 						Random Avatar
-					</button>
-				</div>
-
-				<button onClick={() => createUser(infoUser, navigate)}>Register</button>
-				<button onClick={() => navigate('/')} type='button'>
-					Back
-				</button>
-			</form>
-		</div>
+					</StyledRandomImageButton>
+				</StyledImageWrapper>
+				<StyledButtonsContainer>
+					<StyledDarkButton
+						onClick={() => createUser(infoUser, setUsers, setContent)}
+					>
+						Register
+					</StyledDarkButton>
+					<StyledDarkButtonCancel type='button' onClick={() => setContent()}>
+						Cancel
+					</StyledDarkButtonCancel>
+				</StyledButtonsContainer>
+			</StyledForm>
+		</StyledFormContainer>
 	);
 };
 // FUNCION PARA PREVENIR EL COMPORTAMIENTO DEL FORMULARIO POR DEFECTO
@@ -116,8 +136,9 @@ const generateRandomImage = (gender, infoUser, setInfoUser) => {
 };
 
 // FUNCION PARA CREAR AL USUARIO
-const createUser = async (infoUser, navigate) => {
-	await postData(URLS.AUTH_REGISTER, infoUser);
-	navigate('/');
+const createUser = async (infoUser, setUsers, setContent) => {
+	const updatedUsers = await postData(URLS.AUTH_REGISTER, infoUser);
+	setUsers(updatedUsers);
+	setContent();
 };
 export default Register;

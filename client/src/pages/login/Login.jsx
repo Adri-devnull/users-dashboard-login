@@ -1,37 +1,58 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
+import { ModalContext } from '../../contexts/ModalContext';
 import { loginRequest } from '../../utils/api/auth.api';
+import {
+	StyledButtonContainer,
+	StyledDarkButtonCancel,
+	StyledLoginButton,
+	StyledLoginContainer,
+	StyledLoginForm,
+	StyledLoginInput,
+	StyledLoginLabel
+} from './styles';
 
 const Login = () => {
 	// USER GUARDA LA INFORMACION DEL USUARIO QUE SE ESTA LOGEANDO
 	const [user, setUser] = useState({});
 	const { setUserData } = useContext(AuthContext);
+	const { setContent } = useContext(ModalContext);
 	const navigate = useNavigate();
 	return (
-		<div>
-			<form
+		<StyledLoginContainer>
+			<StyledLoginForm
 				onSubmit={event => submitDefault(event, user, setUserData, navigate)}
 			>
 				<div>
-					<label htmlFor='email'>Email</label>
-					<input
+					<StyledLoginLabel htmlFor='email'>Email</StyledLoginLabel>
+					<StyledLoginInput
 						type='text'
 						name='email'
 						onChange={event => getInputValues(event.target, user, setUser)}
 					/>
 				</div>
 				<div>
-					<label htmlFor='password'>Password</label>
-					<input
+					<StyledLoginLabel htmlFor='password'>Password</StyledLoginLabel>
+					<StyledLoginInput
 						type='text'
 						name='password'
 						onChange={event => getInputValues(event.target, user, setUser)}
 					/>
 				</div>
-				<button>Login</button>
-			</form>
-		</div>
+				<StyledButtonContainer>
+					<StyledLoginButton>Login</StyledLoginButton>
+					<StyledDarkButtonCancel
+						type='button'
+						onClick={() => {
+							setContent();
+						}}
+					>
+						Cancel
+					</StyledDarkButtonCancel>
+				</StyledButtonContainer>
+			</StyledLoginForm>
+		</StyledLoginContainer>
 	);
 };
 

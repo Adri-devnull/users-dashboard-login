@@ -1,19 +1,14 @@
-import { useEffect, useState } from 'react';
-import { URLS } from '../../constants/urls';
-import { getData } from '../../utils/api/users.api';
+import { useContext, useState } from 'react';
+import { UsersContext } from '../../contexts/UsersContext';
 import Filters from '../filters/Filters';
 import UsersList from '../users-list/UsersList';
 import { StyledMain } from './styles';
 
 const Main = () => {
-	const [users, setUsers] = useState([]);
 	const [filter, setFilter] = useState(0);
+	const { users } = useContext(UsersContext);
+	if (users.length === 0) return <h1>Loading...</h1>;
 	const filteredUsers = filterUsersByActive(users, filter);
-	console.log(users);
-
-	useEffect(() => {
-		getAllUsers(setUsers);
-	}, []);
 	return (
 		<StyledMain>
 			<Filters setFilter={setFilter} />
@@ -33,12 +28,6 @@ const filterUsersByActive = (users, filter) => {
 		case 2:
 			return filteredUsers.filter(user => !user.active);
 	}
-};
-
-// FUNCION PARA OBTENER TODOS LOS USUARIOS DE LA BD
-const getAllUsers = async setUsers => {
-	const allUsers = await getData(URLS.API_USERS);
-	setUsers(allUsers);
 };
 
 export default Main;

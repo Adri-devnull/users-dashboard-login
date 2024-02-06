@@ -5,7 +5,6 @@ import { checkLogin } from '../utils/api/auth.api';
 export const AuthProvider = ({ children }) => {
 	const [userData, setUserData] = useState(null);
 	const [loading, setLoading] = useState(true);
-	console.log(userData);
 
 	useEffect(() => {
 		checkLogin(setUserData, setLoading);
